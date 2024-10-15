@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载软云口袋App - 您的云端管理助手</title>
+    <style>
+        :root {
+            --primary-color: #00BCD4;
+            --secondary-color: #FFFFFF;
+            --background-color: #F0F8FF;
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, #00BCD4, #007A8C);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 1rem;
+            animation: floatLogo 3s ease-in-out infinite;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            animation: slideDown 0.8s ease-out;
+        }
+        .header p {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            animation: slideUp 0.8s ease-out 0.3s both;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+        .feature {
+            flex-basis: calc(33% - 2rem);
+            margin: 1rem;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+        .feature h3 {
+            color: var(--primary-color);
+        }
+        .download-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .download-button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) backwards;
+        }
+        .download-button:hover {
+            background-color: #008C9E;
+            transform: scale(1.05);
+        }
+        .download-button img {
+            width: 24px;
+            margin-right: 8px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes popIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes floatLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @media (max-width: 768px) {
+            .feature {
+                flex-basis: calc(50% - 2rem);
+            }
+        }
+        @media (max-width: 480px) {
+            .feature {
+                flex-basis: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <img src="path_to_your_logo.png" alt="软云口袋Logo" class="logo">
+        <h1>软云口袋App</h1>
+        <p>您的云端资源管理助手</p>
+    </header>
+
+    <div class="container">
+        <section class="features">
+            <div class="feature">
+                <h3>便捷管理</h3>
+                <p>轻松管理您的所有云端资源，随时随地访问重要文件。</p>
+            </div>
+            <div class="feature">
+                <h3>安全可靠</h3>
+                <p>采用先进的加密技术，确保您的数据安全无忧。</p>
+            </div>
+            <div class="feature">
+                <h3>协作共享</h3>
+                <p>与团队成员轻松共享文件，提高工作效率。</p>
+            </div>
+            <div class="feature">
+                <h3>智能同步</h3>
+                <p>自动同步您的文件，确保所有设备上的数据都是最新的。</p>
+            </div>
+            <div class="feature">
+                <h3>离线访问</h3>
+                <p>支持离线访问重要文件，不受网络限制。</p>
+            </div>
+            <div class="feature">
+                <h3>Android专属</h3>
+                <p>为Android用户量身打造，充分利用系统特性。</p>
+            </div>
+        </section>
+
+        <section class="download-section">
+            <h2>立即下载</h2>
+            <p>开始您的云端管理之旅</p>
+            <a href="#" class="download-button">
+                <img src="https://example.com/android-icon.png" alt="Android logo">
+                Android 下载
+            </a>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const features = document.querySelectorAll('.feature');
+            features.forEach((feature, index) => {
+                feature.style.animationDelay = `${index * 0.1}s`;
+            });
+
+            const button = document.querySelector('.download-button');
+            button.addEventListener('mouseover', () => {
+                button.style.transform = 'scale(1.1)';
+            });
+            button.addEventListener('mouseout', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
