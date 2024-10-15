@@ -2,71 +2,97 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>下载软云口袋App - 您的云端管理助手</title>
+    <!-- 添加Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="theme-color" content="#00BCD4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         :root {
-            --primary-color: #00BCD4;
+            --primary-color: #4285F4;
             --secondary-color: #FFFFFF;
-            --background-color: #F0F8FF;
-            --text-color: #333333;
+            --background-color: #F8F9FA;
+            --text-color: #202124;
         }
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
+            background: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
         }
         .header {
-            background: linear-gradient(135deg, #00BCD4, #007A8C);
+            background: linear-gradient(135deg, #4285F4, #34A853);
             color: white;
             text-align: center;
             padding: 3rem 0;
             position: relative;
             overflow: hidden;
         }
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 1rem;
-            animation: floatLogo 3s ease-in-out infinite;
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
+            animation: rotateBackground 20s linear infinite;
         }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 0.5rem;
+            animation: floatLogo 3s ease-in-out infinite;
+            border-radius: 15px;
+        }
+
         .header h1 {
             margin: 0;
             font-size: 2.5rem;
             animation: slideDown 0.8s ease-out;
         }
+
         .header p {
             font-size: 1.2rem;
             margin-top: 0.5rem;
             animation: slideUp 0.8s ease-out 0.3s both;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
         .features {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
             margin-top: 3rem;
         }
         .feature {
-            flex-basis: calc(33% - 2rem);
-            margin: 1rem;
-            padding: 1.5rem;
             background-color: white;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            animation: fadeIn 0.8s ease-out forwards;
-            opacity: 0;
+            padding: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .feature.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .feature:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
         .feature h3 {
             color: var(--primary-color);
@@ -74,106 +100,434 @@
         .download-section {
             text-align: center;
             margin-top: 3rem;
-            padding: 2rem;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #4285F4, #34A853);
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0, 188, 212, 0.3);
+        }
+        .download-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .download-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
         }
         .download-button {
-            padding: 12px 24px;
-            font-size: 1rem;
-            color: white;
-            background-color: var(--primary-color);
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #4285F4;
+            background-color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            animation: popIn 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) backwards;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
         }
+
+        .download-button i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+
         .download-button:hover {
-            background-color: #008C9E;
-            transform: scale(1.05);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
-        .download-button img {
-            width: 24px;
-            margin-right: 8px;
+
+        .download-button.downloading {
+            width: 200px;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .download-progress {
+            position: absolute;
+            width: 80%;
+            height: 6px;
+            background-color: #333;
+            border-radius: 3px;
+            overflow: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+
+        .download-button.downloading .download-progress {
+            opacity: 1;
         }
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
         }
-        @keyframes popIn {
-            from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+
+        .download-status {
+            position: absolute;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+        .download-button.downloading .download-status {
+            opacity: 1;
+        }
+
+        .button-text {
+            transition: opacity 0.3s ease;
+        }
+
+        .download-button.downloading .button-text,
+        .download-button.downloading i {
+            opacity: 0;
+        }
+
+        .download-button.completed {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 2rem 0;
+            }
+            
+            .logo {
+                width: 80px;
+                margin-bottom: 0.3rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .features {
+                margin-top: 2rem;
+            }
+            
+            .feature {
+                flex-basis: 100%;
+                margin: 0.5rem 0;
+                padding: 1rem;
+            }
+            
+            .download-section {
+                margin-top: 2rem;
+                padding: 1.5rem;
+            }
+            
+            .download-button {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 60px;
+                margin-bottom: 0.2rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header p {
+                font-size: 0.8rem;
+            }
+            
+            .feature h3 {
+                font-size: 1.2rem;
+            }
+            
+            .feature p {
+                font-size: 0.9rem;
+            }
+            
+            .download-section h2 {
+                font-size: 1.5rem;
+            }
+            
+            .download-section p {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (hover: none) {
+            .download-button:active {
+                transform: scale(1.1);
+            }
+            .feature:active {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            }
+        }
+
+        @keyframes rotateBackground {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @keyframes floatLogo {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        @media (max-width: 768px) {
-            .feature {
-                flex-basis: calc(50% - 2rem);
-            }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .download-button {
+            /* ... 保留之前的样式 ... */
+            transition: all 0.3s ease;
+        }
+        
+        .download-button.animating {
+            position: fixed;
+            z-index: 1000;
+        }
+
+        body.animating {
+            overflow: hidden;
+        }
+
+        /* 更新加载动画样式 */
+        .loader-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            display: none;
+            text-align: center;
+            color: #4285F4;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4285F4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        .loader-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cool-loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            display: none;
+        }
+
+        .download-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .download-icon .circle {
+            fill: none;
+            stroke: #4285F4;
+            stroke-width: 4;
+            stroke-linecap: round;
+            transform-origin: 50% 50%;
+            transform: rotate(-90deg);
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .download-icon .arrow {
+            fill: none;
+            stroke: #4285F4;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .download-icon .check {
+            fill: none;
+            stroke: #34A853;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            display: none;
+        }
+
+        .loader-text {
+            text-align: center;
+            color: #4285F4;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @keyframes downloadAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+            100% { transform: translateY(0); }
+        }
+
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4285F4;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #4285F4;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature h3 {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .feature p {
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+
         @media (max-width: 480px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem;
+            }
+
             .feature {
-                flex-basis: 100%;
+                padding: 0.75rem;
+            }
+
+            .feature-icon {
+                font-size: 1.25rem;
+            }
+
+            .feature h3 {
+                font-size: 0.9rem;
+            }
+
+            .feature p {
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 <body>
     <header class="header">
-        <img src="path_to_your_logo.png" alt="软云口袋Logo" class="logo">
-        <h1>软云口袋App</h1>
-        <p>您的云端资源管理助手</p>
+        <div class="header-content">
+            <img src="ruanyun.png" alt="软云口袋Logo" class="logo">
+            <h1>软云口袋App</h1>
+            <p>全网最牛逼免费软件盒子</p>
+        </div>
     </header>
 
     <div class="container">
         <section class="features">
             <div class="feature">
-                <h3>便捷管理</h3>
-                <p>轻松管理您的所有云端资源，随时随地访问重要文件。</p>
+                <i class="fas fa-tools feature-icon"></i>
+                <h3>各种辅助</h3>
+                <p>提供多种辅助工具，让您的操作更加便捷高效。</p>
             </div>
             <div class="feature">
-                <h3>安全可靠</h3>
-                <p>采用先进的加密技术，确保您的数据安全无忧。</p>
+                <i class="fas fa-gamepad feature-icon"></i>
+                <h3>外卦集合</h3>
+                <p>收录各类外卦，满足您的多样化需求。</p>
             </div>
             <div class="feature">
-                <h3>协作共享</h3>
-                <p>与团队成员轻松共享文件，提高工作效率。</p>
+                <i class="fas fa-laptop-code feature-icon"></i>
+                <h3>软件工具</h3>
+                <p>汇集各种实用软件和工具，一站式解决您的需求。</p>
             </div>
             <div class="feature">
-                <h3>智能同步</h3>
-                <p>自动同步您的文件，确保所有设备上的数据都是最新的。</p>
+                <i class="fas fa-box-open feature-icon"></i>
+                <h3>应有尽有</h3>
+                <p>你想要的，这里都有，满足您的各种软件需求。</p>
             </div>
             <div class="feature">
-                <h3>离线访问</h3>
-                <p>支持离线访问重要文件，不受网络限制。</p>
+                <i class="fas fa-gift feature-icon"></i>
+                <h3>永久免费</h3>
+                <p>所有内容完全免费，无需付费即可畅享所有功能。</p>
             </div>
             <div class="feature">
-                <h3>Android专属</h3>
-                <p>为Android用户量身打造，充分利用系统特性。</p>
+                <i class="fas fa-sync-alt feature-icon"></i>
+                <h3>持续更新</h3>
+                <p>定期更新内容，确保您始终能获取最新、最热门的软件。</p>
             </div>
         </section>
 
         <section class="download-section">
-            <h2>立即下载</h2>
-            <p>开始您的云端管理之旅</p>
-            <a href="#" class="download-button">
-                <img src="https://example.com/android-icon.png" alt="Android logo">
-                Android 下载
+            <h2>立即开启您的免费软件之旅</h2>
+            <p>下载软云口袋App，畅享全网最牛逼的免费软件盒子</p>
+            <a href="#" class="download-button" id="downloadButton">
+                <i class="fab fa-android"></i>
+                <span class="button-text">下载Android版</span>
             </a>
         </section>
     </div>
@@ -181,16 +535,91 @@
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const features = document.querySelectorAll('.feature');
-            features.forEach((feature, index) => {
-                feature.style.animationDelay = `${index * 0.1}s`;
-            });
+            const downloadSection = document.querySelector('.download-section');
+            const downloadButton = document.getElementById('downloadButton');
 
-            const button = document.querySelector('.download-button');
-            button.addEventListener('mouseover', () => {
-                button.style.transform = 'scale(1.1)';
-            });
-            button.addEventListener('mouseout', () => {
-                button.style.transform = 'scale(1)';
+            function isElementInViewport(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            function handleScroll() {
+                features.forEach(feature => {
+                    if (isElementInViewport(feature)) {
+                        feature.classList.add('visible');
+                    }
+                });
+
+                if (isElementInViewport(downloadSection)) {
+                    downloadSection.classList.add('visible');
+                }
+            }
+
+            handleScroll();
+            window.addEventListener('scroll', handleScroll);
+
+            downloadButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const buttonRect = downloadButton.getBoundingClientRect();
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = buttonRect.top + 'px';
+                overlay.style.left = buttonRect.left + 'px';
+                overlay.style.width = buttonRect.width + 'px';
+                overlay.style.height = buttonRect.height + 'px';
+                overlay.style.backgroundColor = 'white';
+                overlay.style.borderRadius = '50px';
+                overlay.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                overlay.style.zIndex = '1000';
+                document.body.appendChild(overlay);
+
+                const loadingContainer = document.createElement('div');
+                loadingContainer.className = 'loading-container';
+                loadingContainer.innerHTML = `
+                    <div class="loader"></div>
+                    <div class="loading-text">正在加载...</div>
+                `;
+                loadingContainer.style.opacity = '0';
+                document.body.appendChild(loadingContainer);
+
+                // 强制重绘
+                overlay.offsetHeight;
+
+                // 开始动画
+                requestAnimationFrame(() => {
+                    overlay.style.top = '0';
+                    overlay.style.left = '0';
+                    overlay.style.width = '100vw';
+                    overlay.style.height = '100vh';
+                    overlay.style.borderRadius = '0';
+
+                    overlay.addEventListener('transitionend', () => {
+                        loadingContainer.style.opacity = '1';
+                        
+                        // 模拟加载过程
+                        fetch('https://rjy9.lanzouw.com/rykd', { mode: 'no-cors' })
+                            .then(() => {
+                                // 加载完成后跳转
+                                window.location.href = 'https://rjy9.lanzouw.com/rykd';
+                            })
+                            .catch(error => {
+                                console.error('加载失败:', error);
+                                // 即使加载失败，也跳转到目标链接
+                                window.location.href = 'https://rjy9.lanzouw.com/rykd';
+                            });
+
+                        // 设置一个超时，确保在一定时间后定会跳转
+                        setTimeout(() => {
+                            window.location.href = 'https://rjy9.lanzouw.com/rykd';
+                        }, 3000); // 3秒后强制跳转，您可以根据需要调整这个时间
+                    }, { once: true });
+                });
             });
         });
     </script>
